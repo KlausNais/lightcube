@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Официальный сайт Discord-сервера LightCube. Присоединяйтесь к нашему дружелюбному сообществу!">
+    <title>LightCube</title>
+    <style>
+        :root {
+            --primary-color: #ED4245; /* Red */
+            --secondary-color: #202225; /* Dark */
+            --background-color: var(--secondary-color);
+            --text-color: white;
+            --card-background: #36393F;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .light-theme {
+            --background-color: #f2f3f5;
+            --text-color: #202225;
+            --card-background: white;
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--secondary-color), #000);
+            padding: 40px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "☀️";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--primary-color);
+            transition: .4s;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input:checked + .slider {
+            background-color: #555;
+        }
+
+        input:checked + .slider:before {
+            content: "🌙";
+            transform: translateX(26px);
+            background-color: var(--secondary-color);
+        }
+
+        .discord-btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 20px 0;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .discord-btn:hover {
+            background-color: #C41E1E;
+            transform: scale(1.05);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .feature-card {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 12px;
+            width: 300px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+
+        .rules-list {
+            list-style-position: inside;
+            margin-left: 20px;
+            font-size: 1.1rem;
+        }
+
+        .rules-list li {
+            margin-bottom: 15px;
+            padding-left: 10px;
+            position: relative;
+        }
+
+        .rules-list li::before {
+            content: "✔";
+            color: var(--primary-color);
+            position: absolute;
+            left: -20px;
+        }
+
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .member-card {
+            background-color: var(--card-background);
+            padding: 25px;
+            border-radius: 12px;
+            width: 220px;
+            text-align: center;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-color);
+        }
+
+        .member-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        .member-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid var(--primary-color);
+            transition: transform 0.3s;
+        }
+
+        .member-card:hover img {
+            transform: scale(1.1);
+        }
+
+        footer {
+            background-color: var(--secondary-color);
+            padding: 30px 0;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .features, .team-members {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .feature-card, .member-card {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle">
+        <label class="theme-switch">
+            <input type="checkbox" onchange="toggleTheme()">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <header>
+        <div class="logo">LightCube</div>
+        <a href="https://discord.gg/9XZXCkCUg6" class="discord-btn" target="_blank" rel="noopener noreferrer">Присоединиться</a>
+    </header>
+
+    <div class="container">
+        <section id="about">
+            <h2>О нашем сервере</h2>
+            <p>Добро пожаловать на официальный сайт нашего Discord-сервера! Здесь вы найдете дружелюбное сообщество, интересные обсуждения и многое другое.</p>
+            <p>Наш сервер был создан 24 сентября 2024 г. и с тех пор мы растем и развиваемся вместе с нашими участниками.</p>
+        </section>
+
+        <section id="features">
+            <h2>Что у нас есть</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Тематические каналы</h3>
+                    <p>Разнообразные каналы для обсуждения разных тем, от игр до науки и искусства.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Голосовые чаты</h3>
+                    <p>Удобные голосовые каналы для общения в реальном времени.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Ивенты и конкурсы</h3>
+                    <p>Регулярные мероприятия с призами для активных участников.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Дружелюбное комьюнити</h3>
+                    <p>Наш сервер - это место, где каждый найдет друзей и единомышленников.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="rules">
+            <h2>Правила сервера</h2>
+            <ol class="rules-list">
+                <li>Уважайте всех участников сервера.</li>
+                <li>Запрещены оскорбления, дискриминация и харассмент.</li>
+                <li>Не спамьте и не флудите в чатах.</li>
+                <li>Запрещена реклама без согласия администрации.</li>
+                <li>Соблюдайте тематику каналов.</li>
+                <li>NSFW-контент только в специально отведенных каналах.</li>
+            </ol>
+        </section>
+
+        <section id="team">
+            <h2>Наша команда</h2>
+            <div class="team-members">
+                <div class="member-card">
+                    <img src="https://cdn.discordapp.com/avatars/1023580635979321364/6fb37b5e8fa46463d412f256e3da7c54.webp?size=4096" alt="Основатель" loading="lazy">
+                    <h3>KlausNais</h3>
+                    <p>Основатель</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://cdn.discordapp.com/avatars/1073237047764078592/c65347719676a7405bda86a8e7a15856.webp?size=4096" alt="Администратор" loading="lazy">
+                    <h3>MrZero</h3>
+                    <p>Администратор</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://cdn.discordapp.com/avatars/1233259056051781673/cc8af96d75351eacd6db5808c8fe7c43.webp?size=4096" alt="Модератор" loading="lazy">
+                    <h3>Pizoder</h3>
+                    <p>Модератор</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2024-2025 LightCube. Все права защищены.</p>
+        <p>Связь с администрацией: <a href="mailto:gagagira771@gmail.com">gagagira771@gmail.com</a></p>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+        }
+    </script>
+</body>
+</html>
